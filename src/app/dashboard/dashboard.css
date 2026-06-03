@@ -14,3 +14,9 @@
 button{
   padding:10px 20px;
 }
+.dashboard .card button{
+  background-color:#007bff;
+  border:none;
+  color:white;
+  cursor:pointer;
+}
