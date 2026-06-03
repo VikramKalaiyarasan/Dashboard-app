@@ -1,0 +1,16 @@
+.dashboard{
+  text-align:center;
+  margin-top:50px;
+}
+
+.card{
+  width:250px;
+  margin:15px auto;
+  padding:20px;
+  box-shadow:0 0 10px lightgray;
+  border-radius:10px;
+}
+
+button{
+  padding:10px 20px;
+}
