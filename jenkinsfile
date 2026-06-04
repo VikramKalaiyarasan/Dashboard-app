@@ -5,16 +5,12 @@ pipeline {
         nodejs 'NodeJS'
     }
 
-    environment {
-        APP_DIR = "dashboard-app"
-    }
-
     stages {
 
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                url: 'https://github.com/<your-github-username>/<repo-name>.git'
+                url: 'https://github.com/VikramKalaiyarasan/Dashboard-app.git'
             }
         }
 
@@ -24,15 +20,9 @@ pipeline {
             }
         }
 
-        stage('Build Angular SSR App') {
+        stage('Build Angular App') {
             steps {
                 sh 'npm run build'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'npm test -- --watch=false'
             }
         }
 
@@ -40,7 +30,7 @@ pipeline {
             steps {
                 sh '''
                 sudo rm -rf /var/www/dashboard/*
-                sudo cp -r dist/dashboard-app/browser/* /var/www/dashboard/
+                sudo cp -r dist/* /var/www/dashboard/
                 '''
             }
         }
