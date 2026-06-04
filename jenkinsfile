@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'NodeJS'
-    }
-
     stages {
 
         stage('Checkout') {
@@ -14,35 +10,23 @@ pipeline {
             }
         }
 
+        stage('Verify Node') {
+            steps {
+                sh 'node -v'
+                sh 'npm -v'
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
 
-        stage('Build Angular App') {
+        stage('Build') {
             steps {
                 sh 'npm run build'
             }
-        }
-
-        stage('Deploy') {
-            steps {
-                sh '''
-                sudo rm -rf /var/www/dashboard/*
-                sudo cp -r dist/* /var/www/dashboard/
-                '''
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Deployment Successful'
-        }
-
-        failure {
-            echo 'Build Failed'
         }
     }
 }
