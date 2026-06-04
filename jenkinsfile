@@ -1,0 +1,58 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'NodeJS'
+    }
+
+    environment {
+        APP_DIR = "dashboard-app"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/<your-github-username>/<repo-name>.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Build Angular SSR App') {
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'npm test -- --watch=false'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                sudo rm -rf /var/www/dashboard/*
+                sudo cp -r dist/dashboard-app/browser/* /var/www/dashboard/
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment Successful'
+        }
+
+        failure {
+            echo 'Build Failed'
+        }
+    }
+}
